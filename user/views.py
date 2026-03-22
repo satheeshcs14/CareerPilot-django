@@ -1,22 +1,20 @@
-from django.shortcuts import render
 
-
-# user/views.py
-
+from django.contrib.auth import authenticate, login
 from django.shortcuts import render, redirect
+from django.contrib import messages
 from django.contrib.auth.models import User, Group
 
-def register(request):
-    if request.method == 'POST':
+def login_view(request):
+    if request.method == "POST":
         username = request.POST['username']
         password = request.POST['password']
-        role = request.POST['role']  # company or employee
 
-        user = User.objects.create_user(username=username, password=password)
+        user = authenticate(request, username=username, password=password)
 
-        group = Group.objects.get(name=role.capitalize())
-        user.groups.add(group)
+        if user is not None:
+            login(request, user)
+            return redirect('home')
+        else:
+            messages.error(request, "Invalid credentials")
 
-        return redirect('login')
-
-    return render(request, 'register.html')
+    return render(request, 'login.html')

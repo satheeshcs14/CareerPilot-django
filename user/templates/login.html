@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login | My App</title>
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: linear-gradient(135deg, #74ebd5, #ACB6E5);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+    .container {
+      background: white;
+      padding: 40px;
+      border-radius: 10px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      width: 320px;
+      text-align: center;
+    }
+    h2 {
+      color: #333;
+      margin-bottom: 20px;
+    }
+    input, select {
+      width: 90%;
+      padding: 10px;
+      margin: 8px 0;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+    button {
+      width: 100%;
+      padding: 10px;
+      background: #007bff;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    button:hover {
+      background: #0056b3;
+    }
+    p {
+      font-size: 14px;
+      margin-top: 15px;
+    }
+    a {
+      color: #007bff;
+      text-decoration: none;
+    }
+    a:hover {
+      text-decoration: underline;
+    }
+    .error {
+      color: red;
+      font-size: 14px;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <h2>Login</h2>
+
+    <form method="POST">
+      {% csrf_token %}
+
+      <!-- Use username if your Django auth uses username -->
+      <input type="text" name="username" placeholder="Username" required><br>
+
+      <!-- OR if you use email login, change backend accordingly -->
+      <!-- <input type="email" name="email" placeholder="Email" required><br> -->
+
+      <input type="password" name="password" placeholder="Password" required><br>
+
+      <!-- Keep role if your system uses it -->
+      <!-- <select name="role">
+        <option value="company">Company</option>
+        <option value="employee">Employee</option>
+      </select> -->
+      <br>
+      <button type="submit">Login</button>
+    </form>
+
+    <!-- Django messages -->
+    {% if messages %}
+      {% for message in messages %}
+        <p class="error">{{ message }}</p>
+      {% endfor %}
+    {% endif %}
+
+    <p>Don't have an account? <a href="{% url 'register' %}">Register here</a></p>
+  </div>
+</body>
+</html>
